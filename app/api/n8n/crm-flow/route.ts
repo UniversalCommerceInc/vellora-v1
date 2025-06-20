@@ -19,15 +19,24 @@ export async function POST(request: NextRequest) {
 
     switch (platform.toLowerCase()) {
       case "pipedrive":
-        n8nEndpoint = `${process.env.N8N_PIPEDRIVE_WEBHOOK_URL}/import` || "";
+        n8nEndpoint = `${
+          process.env.N8N_PIPEDRIVE_WEBHOOK_URL ||
+          "https://n8n.universalcommerce.io/webhook/pipedrive/v1"
+        }/import `;
         break;
 
       case "zoho":
-        n8nEndpoint = `${process.env.N8N_ZOHO_WEBHOOK_URL}/import` || "";
+        n8nEndpoint = `${
+          process.env.N8N_ZOHO_WEBHOOK_URL ||
+          "https://n8n.universalcommerce.io/webhook/zoho/v1"
+        }/import`;
         break;
 
       case "hubspot":
-        n8nEndpoint = `${process.env.N8N_HUBSPOT_WEBHOOK_URL}/import` || "";
+        n8nEndpoint = `${
+          process.env.N8N_HUBSPOT_WEBHOOK_URL ||
+          "https://n8n.universalcommerce.io/webhook/hubspot/v1"
+        }/import`;
         break;
 
       default:

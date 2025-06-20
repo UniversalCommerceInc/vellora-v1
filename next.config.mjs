@@ -19,8 +19,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // Remove appDir as it's deprecated in newer Next.js versions
-    esmExternals: "loose",
+    // Use boolean instead of "loose" string
+    esmExternals: true,
     serverComponentsExternalPackages: ["@supabase/supabase-js"],
   },
   eslint: {
@@ -32,9 +32,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Skip static generation errors
-  trailingSlash: false,
-  // Allow dynamic imports
+  // Enable standalone output for Docker
+  output: "standalone",
+
+  // Webpack configuration for client-side fallbacks
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -46,24 +47,21 @@ const nextConfig = {
     }
     return config;
   },
-  // Skip build-time static generation for problematic pages
-  async generateStaticParams() {
-    return [];
-  },
-  // Skip prerendering for dynamic pages
-  output: "standalone",
-  // Ignore build warnings
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-  // Disable static optimization for problematic pages
+
+  // Remove generateStaticParams - this is NOT a valid Next.js config option
+  // This function belongs in page components, not in next.config.js
+
+  // Remove onDemandEntries - this is for development mode only and deprecated
+
+  // Simplified async functions (return empty arrays if no custom logic needed)
   async headers() {
     return [];
   },
+
   async rewrites() {
     return [];
   },
+
   async redirects() {
     return [];
   },
